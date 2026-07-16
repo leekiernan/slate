@@ -89,7 +89,20 @@ public final class AccessibilityDesktop: DesktopSystem {
 
     private func focusedElement() throws -> AXUIElement {
         let system = AXUIElementCreateSystemWide()
-        let application: AXUIElement = try elementAttribute(system, kAXFocusedApplicationAttribute as CFString)
+        let application: AXUIElement
+        do {
+            application = try elementAttribute(system, kAXFocusedApplicationAttribute as CFString)
+        } catch let error as AccessibilityError {
+            guard case let .operationFailed(_, code) = error,
+                  code == AXError.noValue.rawValue,
+                  let frontmostApplication = NSWorkspace.shared.frontmostApplication else {
+                throw error
+            }
+
+            // Chromium can transiently leave the system-wide focused-application
+            // attribute empty even though AppKit still knows which app is frontmost.
+            application = AXUIElementCreateApplication(frontmostApplication.processIdentifier)
+        }
         return try elementAttribute(application, kAXFocusedWindowAttribute as CFString)
     }
 
