@@ -4,6 +4,8 @@ import SlateCore
 
 @MainActor
 public final class AccessibilityDesktop: DesktopSystem {
+    private static let focusedElementRetryDelays: [TimeInterval] = [0.02, 0.04, 0.06, 0.08]
+
     private var elements: [WindowID: AXUIElement] = [:]
 
     public init() {}
@@ -88,6 +90,22 @@ public final class AccessibilityDesktop: DesktopSystem {
     }
 
     private func focusedElement() throws -> AXUIElement {
+        for attempt in 0...Self.focusedElementRetryDelays.count {
+            do {
+                return try resolveFocusedElement()
+            } catch let error as AccessibilityError {
+                guard isTransientFocusError(error),
+                      attempt < Self.focusedElementRetryDelays.count else {
+                    throw error
+                }
+                Thread.sleep(forTimeInterval: Self.focusedElementRetryDelays[attempt])
+            }
+        }
+
+        preconditionFailure("Focused-element retry loop must return or throw")
+    }
+
+    private func resolveFocusedElement() throws -> AXUIElement {
         let system = AXUIElementCreateSystemWide()
         let application: AXUIElement
         do {
@@ -104,6 +122,11 @@ public final class AccessibilityDesktop: DesktopSystem {
             application = AXUIElementCreateApplication(frontmostApplication.processIdentifier)
         }
         return try elementAttribute(application, kAXFocusedWindowAttribute as CFString)
+    }
+
+    private func isTransientFocusError(_ error: AccessibilityError) -> Bool {
+        guard case let .operationFailed(_, code) = error else { return false }
+        return code == AXError.noValue.rawValue || code == AXError.cannotComplete.rawValue
     }
 
     private func makeWindowInfo(
