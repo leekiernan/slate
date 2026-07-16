@@ -1,4 +1,11 @@
-Current Version: 1.0.25
+Current Version: 2.0.0.beta1
+
+----------------- 2.0.0.beta1 ----------------
+
+Basic rewrite into Swift.
+MacOS 27 will stop allowing this to run and I need it.
+JSON config instead of custom DSL because it's simpler to parse.
+Window sizing and nudges present; missing stateful bits (snapshots etc)
 
 ----------------- 1.0.25 ----------------
 

@@ -1,0 +1,89 @@
+{
+  "bindings" : [
+    {
+      "action" : {
+        "padding" : 6,
+        "region" : {
+          "height" : 1,
+          "width" : 0.5,
+          "x" : 0,
+          "y" : 0
+        },
+        "screen" : "current",
+        "type" : "move"
+      },
+      "key" : "h",
+      "modifiers" : [
+        "control",
+        "option"
+      ]
+    },
+    {
+      "action" : {
+        "placements" : [
+          {
+            "padding" : 0,
+            "region" : {
+              "height" : 1,
+              "width" : 0.5,
+              "x" : 0.5,
+              "y" : 0
+            },
+            "screen" : "current"
+          },
+          {
+            "padding" : 0,
+            "region" : {
+              "height" : 0.5,
+              "width" : 0.5,
+              "x" : 0.5,
+              "y" : 0
+            },
+            "screen" : "current"
+          }
+        ],
+        "type" : "cycle"
+      },
+      "key" : "right",
+      "modifiers" : [
+        "command",
+        "control"
+      ]
+    },
+    {
+      "action" : {
+        "type" : "nudge",
+        "x" : 0.125,
+        "y" : 0
+      },
+      "key" : "right",
+      "modifiers" : [
+        "command",
+        "option",
+        "shift"
+      ]
+    },
+    {
+      "action" : {
+        "direction" : "right",
+        "type" : "focus"
+      },
+      "key" : "right",
+      "modifiers" : [
+        "control",
+        "option"
+      ]
+    },
+    {
+      "action" : {
+        "type" : "hints"
+      },
+      "key" : "space",
+      "modifiers" : [
+        "control",
+        "option"
+      ]
+    }
+  ],
+  "version" : 1
+}
