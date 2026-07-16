@@ -14,5 +14,11 @@ Slate.xcodeproj/xcuserdata/jigish.xcuserdatad/
 *.xcuserdatad
 tmp
 
+_NOTES/
 Slate.xcarchive
-.build
+.build/
+.swiftpm/
+.xcode-derived/
+.xcode-packages/
+xcuserdata/
+*.xcuserstate
